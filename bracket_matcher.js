@@ -16,47 +16,36 @@
 const bracket_matcher = (chars) => {
   chars = chars.split(' ')
   const key_map = {
-    '(': ')',
-    '[': ']',
-    '{': '}'
+    ')': '(',
+    ']': '[',
+    '}': '{'
   }
-
-  let open_stack = []
-  let close_stack = []
-  let brackets_match = true
+  let stack = []
 
   for (var i = 0; i < chars.length; i++) {
-    switch (chars[i]) {
-      case '(':
-        open_stack.push(chars[i]);
-        break;
+    let brace_type = chars[i]
+
+    switch (brace_type) {
       case '{':
-        open_stack.push(chars[i]);
+        stack.push(brace_type)
+        break;
+      case '(':
+        stack.push(brace_type)
         break;
       case '[':
-        open_stack.push(chars[i]);
+        stack.push(brace_type)
         break;
       default:
-        close_stack.push(chars[i]);
+        if (key_map[brace_type] === stack[stack.length - 1]) {
+          stack.pop()
+        }
     }
   }
 
-  console.log(open_stack, "open stack")
-  console.log(close_stack, "close stack")
-
-open_stack.forEach((left_brace, idx) => {
-  if (key_map[left_brace] !== close_stack[(close_stack.length) - idx]) {
-    brackets_match = false
-  }
-  console.log(key_map[left_brace], 'mapped left')
-  console.log(close_stack[(close_stack.length - 1) - idx], 'right brace')
-})
-
-
-  return brackets_match;
+  return stack.length === 0;
 }
 
 
 console.log(bracket_matcher("{ [ ] ( ) }")) // True
-// console.log(bracket_matcher("{ [ ( ] ) }")) // False
-// console.log(bracket_matcher("{ [ }")) // False
+console.log(bracket_matcher("{ [ ( ] ) }")) // False
+console.log(bracket_matcher("{ [ }")) // False
