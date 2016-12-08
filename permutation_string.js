@@ -6,28 +6,19 @@
 
 
 const permutation_string = (string) => {
-  let letter_bank = {}
-  let seen_unique = false
+  let letter_bank = new Set()
+
   for (var i = 0; i < string.length; i++) {
-    if (!letter_bank[string[i]]) {
-      letter_bank[string[i]] = 1
+    let char = string[i]
+    if (letter_bank.has(char)) {
+      letter_bank.delete(char)
     } else {
-      letter_bank[string[i]]++
+      letter_bank.add(char)
     }
   }
 
 
-return Object.keys(letter_bank).every((element) => {
-    if (letter_bank[element] === 1 && !seen_unique) {
-      seen_unique = true
-      return true
-    } else if (letter_bank[element] === 1 && seen_unique) {
-      return false
-    } else {
-      return letter_bank[element] % 2 === 0
-    }
-  })
-
+  return letter_bank.size <= 1
 }
 
 console.log(permutation_string("civic")) //true
