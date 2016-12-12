@@ -16,18 +16,15 @@
 
 
 const getMaxProfit = (stockPrices) => {
-  let profit = stockPrices[0] - stockPrices[1]
+  let profit = stockPrices[1] - stockPrices[0]
 
   for (var i = 0; i < stockPrices.length - 1; i++) {
-    for (var j = i + 1; j < stockPrices.length; j++) {
-      let newProfit = stockPrices[j] - stockPrices[i]
-      if (newProfit > profit) profit =  newProfit
-    }
+   profit = Math.max(profit, Math.max.apply(stockPrices.slice(i + 1), null) - stockPrices[i])
   }
-  
+
   return profit
 }
 
 
-let stockPricesYesterday = [10, 7, 5, 8, 11, 9]
+let stockPricesYesterday = [10, 9, 8, 7, 6, 5]
 console.log(getMaxProfit(stockPricesYesterday))
