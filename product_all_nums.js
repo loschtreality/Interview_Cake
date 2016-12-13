@@ -16,18 +16,22 @@
 // Do not use division in your solution.
 
 const all_ints = (array) => {
-  let newArr = []
-  for (var i = 0; i < array.length; i++) {
-    let newProd = 1
-    for (var j = 0; j < array.length; j++) {
-      if (i === j) {
-        continue
-      } else {
-        newProd *= array[j]
-      }
-    }
-    newArr.push(newProd)
+  let newArr = [array[0]]
+  let runningTotal = array[0]
+
+  for (var i = 1; i < array.length; i++) {
+    newArr.push(runningTotal)
+    runningTotal *= array[i]
   }
+
+  runningTotal = array[array.length - 1]
+
+  for (var i = array.length - 2; i >= 0; i--) {
+    newArr[i] *= runningTotal
+    runningTotal *= array[i]
+  }
+
+
   return newArr
 }
 
